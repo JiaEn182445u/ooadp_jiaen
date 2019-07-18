@@ -51,10 +51,10 @@ if (document.getElementById('CreditCard').checked) {
 				<div class="form-check form-check-inline">
 						<label class="font-italic" for="CorCC">Payment by:</label><br>
 						<br>
-							<input class="form-check-input" onclick="javascript:disableCC()" type="radio" id="Cash" value="Cash" name="CorCC"><br>
-							<label class="form-check-label" for="Service">Cash</label><br>
-							<input class="form-check-input" onclick="javascript:ableCC();" type="radio" id="CreditCard" value="Credit Card" name="CorCC"><br>
+							<input class="form-check-input" onclick="javascript:ableCC();" type="radio" id="CreditCard" value="Credit Card" name="CorCC" ><br>
 							<label class="form-check-label" for="Product">Credit Card</label><br>
+							<input class="form-check-input" onchange="javascript:disableCC()" type="radio" id="Cash" value="Cash" name="CorCC" checked><br>
+							<label class="form-check-label" for="Service">Cash</label><br>
 						</div>
 						<br>
 						<div class="form-check form-check-inline">

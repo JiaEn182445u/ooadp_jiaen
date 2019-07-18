@@ -1,10 +1,61 @@
 {{user.email}}
 {{#if shopp}}
-{{#each shopp}}
+there is something
+<ul>
+    {{#each shopp}}
+
+<li class="itemboxhome">
+
+<div class="allitemhome">
+
+        <div class="allfoodpiccontain">
+             <div class="allitemhomedetail">
+                 <br>
 {{name}}
+<br>
 {{price}}
+<br>
+<a href="../shopping/oneitem/{{id}}">View</a>
+
+<a href="../shopping/addtowishlist/{{id}}" >wishlist</a>
+{{!-- 
+<button onclick="get_oneitem({{id}})"><a href="../shopping/oneitem/{{id}}">View</a></button> --}}
+<a href="../shopping/addtocart/{{id}}">Add to cartttttttt</a>
+                <br>
+</div>
+</div>
+</div>
+
+
+
+
+    </li>
+{{emailfeedback}}
+
 {{/each}}
+</ul>
+
 {{else}}
+
 nothing
 {{/if}}
 hii
+
+{{!-- <form  method="post" action="../shopping/addtocart/{{id}}">
+<a href="../shopping/oneitem/{{id}}">View</a>
+<li class="itemboxhome">
+
+<div class="allitemhome">
+
+        <div class="allfoodpiccontain">
+             <div class="allitemhomedetail">
+                 <br>
+{{name}}
+<br>
+{{price}}
+<br>
+
+
+
+ <button type="submit">Add to Cart</button>
+</form> --}}

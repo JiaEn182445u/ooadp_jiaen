@@ -1,0 +1,36 @@
+WISHLISTTTTTTTT
+{{#if wish}}
+there is something
+<ul>
+    {{#each wish}}
+        
+<li class="itemboxhome">
+
+
+{{shopp.name}}
+<br>
+{{shopp.price}}
+<br>
+
+
+<a href="../shopping/deletewishlist/{{id}}" id='cart-item-remove' class="cart-item-remove">
+<i class="fas fa-trash"></i></a>
+
+                <br>
+
+
+
+
+    </li>
+
+{{emailfeedback}}
+
+{{/each}}
+</ul>
+
+{{else}}
+
+nothing
+{{/if}}
+
+
