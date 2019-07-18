@@ -38,4 +38,28 @@ $('#posterUpload').on('change', function(){
 	}
 	});
    });
+
+
+   $('#posterProfile').on('change', function(){
+	let imageprofile = $("#posterProfile")[0].files[0];
+	let formdataprofile = new FormData();
+	formdataprofile.append('posterProfile', imageprofile);
+	$.ajax({
+	url: '/cuser/uploadprofilepic',
+   type: 'POST',
+	dataprofile: formdataprofile,
+	contentTypeprofile: false,
+	processDataprofile: false,
+	'success':(dataprofile) => {
+	$('#posterprofilePic').attr('src', dataprofile.file);
+	$('#profileURL').attr('value', dataprofile.file);// sets posterURL hidden field
+	if(dataprofile.err){
+	$('#posterhehe').show();
+	$('#posterhehe').text(dataprofile.err.message);
+	} else{
+	$('#posterhehe').hide();
+	}
+	}
+	});
+   });
    
