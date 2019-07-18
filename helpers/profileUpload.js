@@ -3,14 +3,14 @@ const path = require('path');
 // Set The Storage Engine
 const storage = multer.diskStorage({
     destination: (req, file, callback) => {
-        callback(null, './public/feedbackP/' + req.user.id + '/');
+        callback(null, './public/profilepic/' + req.user.id + '/');
     },
     filename: (req, file, callback) => {
         callback(null, req.user.id + '-' + Date.now() + path.extname(file.originalname));
     }
 });
 // Initialise Upload
-const feedbackP = multer({
+const profilepic = multer({
     storage: storage,
     limits: {
         fileSize: 1000000
@@ -18,7 +18,7 @@ const feedbackP = multer({
     fileFilter: (req, file, callback) => {
         checkFileType(file, callback);
     }
-}).single('posterUpload'); // Must be the name as the HTML file upload input
+}).single('posterProfile'); // Must be the name as the HTML file upload input
 // Check File Type
 function checkFileType(file, callback) {
     // Allowed file extensions
@@ -33,5 +33,4 @@ function checkFileType(file, callback) {
         callback({ message: 'Images Only' });
     }
 }
-
-module.exports = feedbackP; 
+module.exports = profilepic; 
