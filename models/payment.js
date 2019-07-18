@@ -4,6 +4,12 @@ const db = require('../config/DBConfig');
 Note that Sequelize automatically pleuralizes the entity name as the table name
 */
 const payment = db.define('payment', {
+    // amount: {
+    //     type: Sequelize.STRING
+    // },
+    datetime: {
+        type: Sequelize.DATE
+    },
     payname: {
         type: Sequelize.STRING
     },
