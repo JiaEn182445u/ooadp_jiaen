@@ -1,10 +1,20 @@
 <link rel="stylesheet" href="/css/cstyle.css">
 <div class="row">
 	<div class="col-md-6 mx-auto">
-		<div class="card card-body">
+		<div class= "card card-body">
 			<h3 class="text-center">Account Register</h3>
 			<form action="../cuser/cregister" method="post">
 				<div class="form-group">
+					
+<input type="file" id="posterProfile" name="posterProfile" accept="image/png,image/jpeg,image/jpg,image/gif"> 
+
+<img id="posterprofilePic" src="/img/profile.png" alt="" class="border img-thumbnail img-fluid"
+                        style="height:95%;width:100%">
+    {{!—- Hidden field to submit URL of poster to the server --}}
+<input id="profileURL" type="hidden" name="profileURL">
+{{!-- Practical 10 Exercise 01 --}}
+<div class="font-weight-bold text-danger small" id="posterhehe" style="display:none"></div>
+
 					<label for="name">Name</label>
 					<input type="text" class="clogininputBox" name="name" value="{{name}}" required>
 				</div>
@@ -20,7 +30,7 @@
 							<label class="form-check-label" for="Female">Female</label>
 						</div>
 						<div class="form-check form-check-inline">
-							<input class="form-check-input" type="radio" id="None" value="Prefer Not to say" name="gender">
+							<input class="form-check-input" type="radio" id="None" value="Prefer Not to say" name="gender" checked>
 							<label class="form-check-label" for="None">Prefer not to say</label>
 						</div>
 				</div>
