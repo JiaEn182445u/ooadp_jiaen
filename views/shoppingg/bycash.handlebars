@@ -1,0 +1,45 @@
+
+<link rel="stylesheet" href="/css/cstyle.css">
+<h3 id="feedbacktitle">Payment</h3>
+<br>
+<div class="container">
+	<div class="feedbackbox">
+	
+		
+		<form action="../shopping/cashpaymentdone" method="post" id="customerfeedbackformm">
+	
+		<div class="form-group">
+			<label class="font-italic" for="payname">Name:</label><br>
+			<textarea class="feedbackuseremail" id="payname" name="payname" rows="1" cols="5" readonly="readonly">{{user.name}}</textarea>
+		</div>
+				<div class="form-group">
+			<label class="font-italic" for="paycontact">Contact Number:</label><br>
+			<textarea class="feedbackuseremail" id="paycontact" name="paycontact" rows="1" cols="5" readonly="readonly">{{user.contact}}</textarea>
+		</div>
+		<div class="form-group">
+			<label class="font-italic" for="payemail">Email:</label><br>
+			<textarea class="feedbackuseremail" id="payemail" name="payemail" rows="1" cols="5" readonly="readonly">{{user.email}}</textarea>
+		</div>
+				<div class="form-group">
+			<label class="font-italic" for="payaddress">Address:</label><br>
+			<textarea class="feedbackuseremail" id="payaddress" name="payaddress" rows="1" cols="5" readonly="readonly">{{user.address}}</textarea>
+		</div>
+		<div class="form-group">
+			<label class="font-italic" for="payaddress">Postal Code:</label><br>
+			<textarea class="feedbackuseremail" id="paypostalC" name="paypostalC" rows="1" cols="5" readonly="readonly">{{user.address}}</textarea>
+		</div>
+			
+		
+				
+		</div>
+
+			<br>
+			<button class="addfeedback" type="submit" class="btn btn-primary">Save
+			</button>
+		</form>
+		
+
+
+	</div>
+</div>
+

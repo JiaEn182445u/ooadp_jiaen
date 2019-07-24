@@ -14,6 +14,10 @@ const FlashMessenger = require('flash-messenger');// Library to use MySQL to sto
 const MySQLStore = require('express-mysql-session');
 const db = require('./config/db'); // db.js config file
 const passport = require('passport');
+const ejs=require('ejs');
+const paypal=require('paypal-rest-sdk');
+
+
 
 
 /*

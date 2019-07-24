@@ -1,7 +1,35 @@
 <p>Name:{{ user.name }}</p>
 <p>Email:{{user.email}}</p>
 <p>hiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiii</p>
+{{#if all}}
+there is something
+    {{!-- {{#each all}}
+    {{datetime}}
+    {{shopIt.itemName}}
 
 
+<br>   
+{{/each}}
+{{/if}}
+{{#if order}}
+
+<ul>
+    
+{{#each order}}
+{{datetime}}
+
+
+<br>
+
+
+
+
+
+{{/each}} --}}
+
+{{else}}
+
+nothing
+{{/if}}
 
 <button><a href="../profileEdit">Update profile</a></button>

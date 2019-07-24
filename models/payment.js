@@ -4,9 +4,9 @@ const db = require('../config/DBConfig');
 Note that Sequelize automatically pleuralizes the entity name as the table name
 */
 const payment = db.define('payment', {
-    // amount: {
-    //     type: Sequelize.STRING
-    // },
+    totalamount: {
+        type: Sequelize.STRING
+    },
     datetime: {
         type: Sequelize.DATE
     },
@@ -28,20 +28,7 @@ const payment = db.define('payment', {
     CorCC: {
         type: Sequelize.STRING
     },
-    CCType: {
-        type: Sequelize.STRING
-    },
-    cardname: {
-        type: Sequelize.STRING
-    },
-    cardnumber: {
-        type: Sequelize.STRING
-    },
-    expiry: {
-        type: Sequelize.STRING
-    },
-    scode: {
-        type: Sequelize.STRING
-    }
+    
+    transactions:{ type: Sequelize.STRING}
 });
 module.exports = payment;

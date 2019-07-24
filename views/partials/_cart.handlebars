@@ -1,0 +1,28 @@
+ <div id="cart" class="cart">
+          <!-- cart item -->
+          <div class="cart-item d-flex justify-content-between text-capitalize my-3">
+            <img src="img-cart/cake-2.jpeg" class="img-fluid rounded-circle" id="item-img" alt="">
+            <div class="item-text">
+
+              <p id="cart-item-title" class="font-weight-bold mb-0">cart item</p>
+              mwhahah
+              {{user.email}}
+              {{#if user}}
+              lolooooooooooooooooooooo
+              {{/if}}
+              {{#if cart}}
+
+              hiii
+              {{#each cart}}
+              {{name}}
+              {{price}}
+              {{cart}}
+              {{/each}}
+              {{/if}}
+              <span>$</span>
+              <span id="cart-item-price" class="cart-item-price" class="mb-0">10.99</span>
+            </div>
+            <a href="#" id='cart-item-remove' class="cart-item-remove">
+              <i class="fas fa-trash"></i>
+            </a>
+          </div>

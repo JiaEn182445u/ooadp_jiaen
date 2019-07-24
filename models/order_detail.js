@@ -4,6 +4,8 @@ const db = require('../config/DBConfig');
 Note that Sequelize automatically pleuralizes the entity name as the table name
 */
 const orderd = db.define('orderd', {
-   
+quantity: {
+        type: Sequelize.STRING
+    }
 });
 module.exports = orderd;

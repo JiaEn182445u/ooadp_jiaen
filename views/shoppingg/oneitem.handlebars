@@ -3,6 +3,10 @@ hiiii
 {{shopp.id}}
 {{shopp.name}}
 price:{{shopp.price}}
+<form action="../addtocartt/{{shopp.id}}">
+  Quantity (between 1 and 5): <input type="number" name="quantity" min="1" max={{shopp.quantity}}>
+  <input type="submit">
+</form>
 {{!-- <script>
 
 name="heloo";

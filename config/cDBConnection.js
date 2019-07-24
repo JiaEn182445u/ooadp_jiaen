@@ -22,6 +22,8 @@ const setUpDB = (drop) => {
             user.hasMany(payment);
             
             //user.hasMany(cart);
+            user.hasMany(orderd, { foreignKey: 'CuserId' });
+            orderd.belongsTo(user, { foreignKey: 'CuserId' });
             user.hasMany(cart, { foreignKey: 'CuserId' });
             cart.belongsTo(user, { foreignKey: 'CuserId' });
             shopp.hasMany(cart, { foreignKey: 'itemid' });
@@ -38,6 +40,8 @@ const setUpDB = (drop) => {
             orderd.belongsTo(payment, { foreignKey: 'orderid' });
             shopp.hasMany(orderd, { foreignKey: 'itemid' });
             orderd.belongsTo(shopp, { foreignKey: 'itemid' });
+            payment.hasMany(orderd, { foreignKey: 'datetime' });
+            orderd.belongsTo(payment, { foreignKey: 'datetime' });
             
             // shopp.hasMany(, { foreignKey: 'CuserId' });
             // cart.belongsTo(user, { foreignKey: 'CuserId' });

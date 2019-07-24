@@ -8,7 +8,10 @@ const ensureAuthenticated = require('../helpers/auth');
 const passport = require('passport');
 const fs = require('fs');
 const upload = require('../helpers/profileUpload');
-
+const orderd = require('../models/order_detail');
+const payment = require('../models/payment');
+const cart = require('../models/cart');
+const shopIt = require('../models/shopitem');
 
 
 // Login Form POST => /user/login
@@ -97,12 +100,74 @@ router.post('/cregister', (req, res) => {
 
 
 router.get('/profile/:id', (req, res) => {
-    var id=req.param.id;
+    //var id=req.param.id;
     console.log("helooooooooooooooooooooooooooooooooooo");
-    res.render('user/customerprofile')
-    
-});
+    payment.findAll(
+            	{
+            		where: {
+            			CuserId: req.user.id
+                    }
+                    ,
+                    
+                            include:[{
+                                model: orderd,as: "orderds",
+                                include:[shopIt],
+                                required:true
+                                }]
+                })
+	// payment.findAll(
+    //     	{
+    //     		where: {
+    //     			CuserId: req.user.id
+    //             }
+    //             //,
+                
+    //                     // include:[{
+    //                     //     model: orderd,as: "orderds",
+    //                     //     include:[shopIt],
+    //                     //     required:true
+    //                     //     }]
+    //         })
+    //     .then((order)=>{
 
+           
+    //         orderd.findAll(
+    //             {
+    //                 where: {
+    //                     CuserId: req.user.id
+    //                 },
+                    
+    //                         include:[{
+                                
+    //                             model: shopIt,as: "form",
+    //                             required:true
+    //                             }]})
+                .then((all) => {
+                    
+                    res.render('user/customerprofile', { //passing the videos object to display all the videos retrieved.
+                        all: all,
+                      // order:order
+                    });
+                }) 
+       // })
+        
+});
+//});
+// .then((pay) => {
+        //     console.log(pay);
+            
+        //     orderd.findAll(
+        //         {
+        //             where: {
+        //                 orderid: pay.id
+        //             }
+        //             // ,
+        //             // include:[{
+        //             //     model: shopIt ,as: "shopp",
+        //             //     required:true
+        //             //    }]
+                    
+        //         })
 router.get('/profileEdit',(req,res)=>{
    res.render('user/updateinfo') 
 });
