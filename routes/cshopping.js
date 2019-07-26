@@ -96,6 +96,7 @@ router.post('/cashpaymentdone', (req, res) => {
 					let itemid = cartt[i].itemid;
 					let orderid = paymenttt.id;
 					let oquantity=cartt[i].quantity;
+					let remark=cartt[i].remark;
 					// var date = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate();
 					// var time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
 					// let datetime = date + ' ' + time;
@@ -121,6 +122,7 @@ router.post('/cashpaymentdone', (req, res) => {
 					orderd.create({
 						itemid,
 						orderid,
+						remark,
 						oquantity,
 						// datetime,
 						CuserId
@@ -235,6 +237,7 @@ router.post('/creditcardpaymentdone', (req, res) => {
 					let itemid = cartt[i].itemid;
 					let orderid = paymenttt.id;
 					let oquantity=cartt[i].quantity;
+					let remark=cartt[i].remark;
 					// var date = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate();
 					// var time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
 					// let datetime = date + ' ' + time;
@@ -259,6 +262,7 @@ router.post('/creditcardpaymentdone', (req, res) => {
 						itemid,
 						orderid,
 						oquantity,
+						remark,
 						// datetime,
 						CuserId
 					})
@@ -592,6 +596,7 @@ cart.findAll(
 				items["price"]=carttt[i].form.price;
 				// items["price"]= carttt[i].form.price;
 				items["quantity"]=carttt[i].quantity;
+				items["remark"]=carttt[i].remark;
 				console.log(carttt[i].quantity);
 				total+=parseInt(carttt[i].quantity)*parseFloat(carttt[i].form.price);
 				
@@ -670,6 +675,7 @@ cart.findAll(
 					let orderid = paymenttt.id;
 					let CuserId=req.user.id;
 					let oquantity=cartt[i].quantity;
+					let remark=cartt[i].remark;
 					// var date = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate();
 					// var time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
 					// let datetime = date + ' ' + time;
@@ -696,6 +702,7 @@ cart.findAll(
 						//datetime,
 						oquantity,
 						orderid,
+						remark,
 						CuserId
 					})
 					cartt[i].destroy
@@ -730,7 +737,7 @@ router.get('/payment', (req, res) => {
 	res.render('shoppingg/payment')
 });
 
-
+ 
 router.get('/shop', (req, res) => {
 	// res.render('shoppingg/shop') 
 	shopIt.findAll({ // retrieves all videos using the userId defined in the where object in ascending order by title.
@@ -1137,13 +1144,15 @@ router.post('/addtocartt/:id', (req, res) => {
 			console.log(quantity);
 			let itemid = shopp.id;
 			let CuserId = req.user.id;
+			let remark=req.body.remark;
 			//let quantity=req.body.quantity;
 			//let quantity= parseInt(cart.quantity)+1;
 			console.log(quantity);
 			cart.create({
 				itemid,
 				quantity,
-				CuserId
+				remark,
+				CuserId  
 			}).then((cart) => {
 				res.redirect('/');
 			})

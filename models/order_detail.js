@@ -6,6 +6,9 @@ Note that Sequelize automatically pleuralizes the entity name as the table name
 const orderd = db.define('orderd', {
 oquantity: {
         type: Sequelize.STRING
+    },
+    remark: {
+        type: Sequelize.STRING
     }
 });
 module.exports = orderd; 

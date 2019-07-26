@@ -6,7 +6,8 @@ price:{{shopp.price}}
 <form action="../addtocartt/{{shopp.id}}" method="post">
 <label class="font-italic" for="quantity">Quantity:</label><br>
   Quantity: <input type="number" name="quantity" min="1" max={{shopp.quantity}} value="1">{{shopp.quantity}}
-
+<label class="font-italic" for="remark">Remark:</label><br>
+  remark: <input name="remark" rows="1" cols="5" >
  {{!-- <select name="quantity">
    
     <option value="volvo">Volvo</option>
