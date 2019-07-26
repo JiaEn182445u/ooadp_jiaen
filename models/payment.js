@@ -11,7 +11,7 @@ const payment = db.define('payment', {
         type: Sequelize.DATE
     },
     payname: {
-        type: Sequelize.STRING
+        type: Sequelize.STRING 
     },
     paycontact: {
         type: Sequelize.STRING
@@ -28,7 +28,9 @@ const payment = db.define('payment', {
     CorCC: {
         type: Sequelize.STRING
     },
-    
+    CCType: {
+        type: Sequelize.STRING
+    },
     transactions:{ type: Sequelize.STRING}
 });
 module.exports = payment;

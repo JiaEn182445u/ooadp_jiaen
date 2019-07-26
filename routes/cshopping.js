@@ -14,7 +14,7 @@ const cart = require('../models/cart');
 const orderd = require('../models/order_detail');
 const ejs = require('ejs');
 const paypal = require('paypal-rest-sdk');
-
+//const total=0.00;
 
 
 
@@ -26,7 +26,32 @@ router.get('/paymentcash', (req, res) => {
 	res.render('shoppingg/bycash')
 });
 
+router.get('/paymentcreditcard', (req, res) => {
+	res.render('shoppingg/bycreditcard')
+});
+
+
 router.post('/cashpaymentdone', (req, res) => {
+	cart.findAll(
+		{
+			where: {
+				CuserId: req.user.id
+			}
+			,
+			include: [{
+				model: shopIt, as: "form",
+				required: true
+			}]
+
+		})
+		.then((carttp) => {
+			var total=0.00;
+			for (i = 0; i < carttp.length; i++) {
+				//let quantity=parseInt(cartt[i].form.quantity-parseInt(cartt[i].quantity))
+				total+=parseInt(carttp[i].quantity)*parseFloat(carttp[i].form.price);
+				console.log("Narutoo forever");}
+			
+				const Rtotal=total.toFixed(2);
 	var today = new Date();
 	var date = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate();
 	var time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
@@ -36,7 +61,7 @@ router.post('/cashpaymentdone', (req, res) => {
 	let payemail = req.body.payemail;
 	let payaddress = req.body.payaddress;
 	let paypostalC = req.body.paypostalC;
-	
+	let totalamount=Rtotal;
 	let CorCC = "cash";
 
 	let CuserId = req.user.id;
@@ -49,6 +74,7 @@ router.post('/cashpaymentdone', (req, res) => {
 		payaddress,
 		paypostalC,
 		CorCC,
+		totalamount,
 		CuserId
 	}).then((paymenttt) => {
 
@@ -57,35 +83,215 @@ router.post('/cashpaymentdone', (req, res) => {
 				where: {
 					CuserId: req.user.id
 				}
+				,
+				include: [{
+					model: shopIt, as: "form",
+					required: true
+				}]
+
 			})
 			.then((cartt) => {
-
+				var total=0.00;
 				for (i = 0; i < cartt.length; i++) {
 					let itemid = cartt[i].itemid;
 					let orderid = paymenttt.id;
-					let quantity=cartt[i].quantity;
+					let oquantity=cartt[i].quantity;
 					// var date = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate();
 					// var time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
 					// let datetime = date + ' ' + time;
+					let quantity=parseInt(cartt[i].form.quantity-parseInt(cartt[i].quantity))
+					total+=parseInt(cartt[i].quantity)*parseFloat(cartt[i].form.price);
 					
+
+					console.log("Narutoo forever");
+					console.log(quantity);
+					shopIt.update({
+						quantity
+					},
+					{
+						where:{
+							id:cartt[i].itemid
+						}
+					});
+
+					const Rtotal=total.toFixed(2);
+
 				//	let insidequantity=parseInt(ShopIt.quantity)-parseInt(cartt[i].quantity);
 				//	shopIt.update({insidequantity})
 					orderd.create({
 						itemid,
 						orderid,
-						quantity,
+						oquantity,
 						// datetime,
 						CuserId
 					})
 					cartt[i].destroy
 						( 
 						)
+					shopIt.findAll({
+					})
+					.then((form) => {
+						
+						//console.log(form);
+						
+						for (c = 0; c < cartt.length; c++) {
+							for (d = 0; d < form.length; d++) {
+							if(cartt[c].itemid==form[d].id){
+								console.log(form[d].quantity);
+								console.log(cartt[c].quantity);
+								let quantity=form[d].quantity-cartt[c].quantity;
+								console.log(quantity);
+								form[d].update(quantity);
+							// console.log(cartt[c]);
+							// console.log(cartt[c].orderid);
+							//console.log("hiii");
+							console.log("naruto");
+							// if(shopp[c].id==)
+							//console.log(shopp[c].id==order);
+							}
+						}
+					}
+						
+					})
+						//console.log(cartt[i].shopIt.quantity);
+						// shopIt.quantity-=oquantity;
+						// let quantity=shopIt.quantity;
+						// shopIt.update(quantity);
+						
 				}
+				
+
 				res.redirect('/');
 			})
+		})
 	})
 });
 
+
+
+router.post('/creditcardpaymentdone', (req, res) => {
+	cart.findAll(
+		{
+			where: {
+				CuserId: req.user.id
+			}
+			,
+			include: [{
+				model: shopIt, as: "form",
+				required: true
+			}]
+
+		})
+		.then((carttp) => {
+			var total=0.00;
+			for (i = 0; i < carttp.length; i++) {
+				//let quantity=parseInt(cartt[i].form.quantity-parseInt(cartt[i].quantity))
+				total+=parseInt(carttp[i].quantity)*parseFloat(carttp[i].form.price);
+				console.log("Narutoo forever");}
+			
+				const Rtotal=total.toFixed(2);
+	var today = new Date();
+	var date = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate();
+	var time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
+	let datetime = date + ' ' + time;
+	let payname = req.body.payname;
+	let paycontact = req.body.paycontact;
+	let payemail = req.body.payemail;
+	let payaddress = req.body.payaddress;
+	let paypostalC = req.body.paypostalC;
+	let totalamount=Rtotal;
+	let CorCC = "credit card";
+	let CCType=req.body.CCType.toString();
+	let CuserId = req.user.id;
+	// Multi-value components return array of strings or undefined
+	paymentt.create({
+		datetime,
+		payname,
+		paycontact,
+		payemail,
+		payaddress,
+		paypostalC,
+		CorCC,
+		totalamount,
+		CCType,
+		CuserId
+	}).then((paymenttt) => {
+
+		cart.findAll(
+			{
+				where: {
+					CuserId: req.user.id
+				}
+				,
+				include: [{
+					model: shopIt, as: "form",
+					required: true
+				}]
+
+			})
+			.then((cartt) => {
+				var total=0.00;
+				for (i = 0; i < cartt.length; i++) {
+					let itemid = cartt[i].itemid;
+					let orderid = paymenttt.id;
+					let oquantity=cartt[i].quantity;
+					// var date = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate();
+					// var time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
+					// let datetime = date + ' ' + time;
+					let quantity=parseInt(cartt[i].form.quantity-parseInt(cartt[i].quantity))
+					total+=parseInt(cartt[i].quantity)*parseFloat(cartt[i].form.price);
+					
+
+					console.log("Narutoo forever");
+					console.log(quantity);
+					shopIt.update({
+						quantity
+					},
+					{
+						where:{
+							id:cartt[i].itemid
+						}
+					});
+
+					const Rtotal=total.toFixed(2);
+
+					orderd.create({
+						itemid,
+						orderid,
+						oquantity,
+						// datetime,
+						CuserId
+					})
+					cartt[i].destroy
+						( 
+						)
+					shopIt.findAll({
+					})
+					.then((form) => {
+						 
+						for (c = 0; c < cartt.length; c++) {
+							for (d = 0; d < form.length; d++) {
+							if(cartt[c].itemid==form[d].id){
+								console.log(form[d].quantity);
+								console.log(cartt[c].quantity);
+								let quantity=form[d].quantity-cartt[c].quantity;
+								console.log(quantity);
+								form[d].update(quantity);
+						
+							}
+						}
+					}
+						
+					})
+						
+				}
+				
+
+				res.redirect('/');
+			})
+		})
+	})
+});
 
 
 
@@ -117,28 +323,31 @@ router.post('/pay', (req, res) => {
 			var total=0.00;
 			for (i = 0; i < carttt.length; i++) {
 				const items={}
-				items["name"]=carttt[i].form.name;
-				items["itemid"]=carttt[i].itemid;
+				items["name"]=carttt[i].form.itemName;
+				// items["itemid"]=carttt[i].itemid;
 				items["currency"]="SGD";
-				items["price"]="2.90";
+				items["price"]=carttt[i].form.price;
 				// items["price"]= carttt[i].form.price;
-				items["quantity"]="1";
-				//total+=parseInt(1)*parseFloat(carttt[i].form.price);
+				items["quantity"]=carttt[i].quantity;
+				console.log(carttt[i].quantity);
+				total+=parseInt(carttt[i].quantity)*parseFloat(carttt[i].form.price);
 				
 				// items["name"]=carttt[i].form.name;
 				listhehe.push(items);
 				
 				//transactions.item_list.items.push({itemid: itemid});
 
-				// let cost =parseFloat(carttt[i].shopp.price);
+				//let cost =parseFloat(carttt[i].shopp.price);
 				// total+=cost;
 				//console.log(cost);
 			}
 			
+			//const Rtotal=total.toFixed(2);
+			
+			//console.log(total);
 			const Rtotal=total.toFixed(2);
-			console.log(Rtotal);
-			console.log(total);
-			console.log(listhehe); 
+			//console.log(Rtotal);
+			//console.log(listhehe); 
 			const create_payment_json = {
 
 				//{
@@ -149,10 +358,10 @@ router.post('/pay', (req, res) => {
 					"transactions": [
 					  {
 						"amount": {
-						  "total": "2.90",
+						  "total": Rtotal,
 						  "currency": "SGD",
 						  "details": {
-							"subtotal": "2.90",
+							"subtotal": Rtotal,
 							//"tax": "0.05",
 							// "shipping": "0.03",
 							// "handling_fee": "1.00",
@@ -167,7 +376,7 @@ router.post('/pay', (req, res) => {
 						},
 						"soft_descriptor": "ECHI5786786",
 						"item_list": {
-						  "items": listhehe
+						  "items":  listhehe
 						//   [
 						// 	{
 						// 	  //"name": "hat",
@@ -357,16 +566,64 @@ router.post('/pay', (req, res) => {
 router.get('/success', (req, res) => {
 	const payerId = req.query.PayerID;
 	const paymentId = req.query.paymentId;
+	// const Rtotal = req.query.total;
+	//const Rtotal=total.toFixed(2);
+	//console.log(Rtotal);
+
+cart.findAll(
+		{
+			where: {
+				CuserId: req.user.id
+			}
+			,
+			include:[{
+				model: shopIt ,as: "form",
+				required:true
+			   }]
+		})
+		.then((carttt) => {
+			const listhehe=[];
+			var total=0.00;
+			for (i = 0; i < carttt.length; i++) {
+				const items={}
+				items["name"]=carttt[i].form.itemName;
+				// items["itemid"]=carttt[i].itemid;
+				items["currency"]="SGD";
+				items["price"]=carttt[i].form.price;
+				// items["price"]= carttt[i].form.price;
+				items["quantity"]=carttt[i].quantity;
+				console.log(carttt[i].quantity);
+				total+=parseInt(carttt[i].quantity)*parseFloat(carttt[i].form.price);
+				
+				
+				// items["name"]=carttt[i].form.name;
+				listhehe.push(items);
+				
+				//transactions.item_list.items.push({itemid: itemid});
+
+				//let cost =parseFloat(carttt[i].shopp.price);
+				// total+=cost;
+				//console.log(cost);
+			}
+			
+			//const Rtotal=total.toFixed(2);
+			
+			//console.log(total);
+			const Rtotal=total.toFixed(2);
+			//console.log(Rtotal);
+			//console.log(listhehe); 
+		
 
 	const execute_payment_json = {
 		"payer_id": payerId,
 		"transactions": [{
 			"amount": {
 				"currency": "SGD",
-				"total": "2.90"
+				"total": Rtotal
 			}
 		}]
 	}
+
 	var today = new Date();
 	var date = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate();
 	var time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
@@ -377,7 +634,7 @@ router.get('/success', (req, res) => {
 	let payaddress = req.user.address;
 	let paypostalC = req.user.address;
 	let CorCC = "credit card";
-
+	let totalamount=Rtotal;
 	let transactions = paymentId;
 	let CuserId = req.user.id;
 	// Multi-value components return array of strings or undefined
@@ -390,6 +647,7 @@ router.get('/success', (req, res) => {
 		paypostalC,
 		transactions,
 		CorCC,
+		totalamount,
 		CuserId
 	}).then((paymenttt) => {
 
@@ -397,8 +655,11 @@ router.get('/success', (req, res) => {
 			{
 				where: {
 					CuserId: req.user.id
-				}
-
+				},
+				include:[{
+					model: shopIt ,as: "form",
+					required:true
+				   }]
 
 			})
 			.then((cartt) => {
@@ -407,18 +668,35 @@ router.get('/success', (req, res) => {
 
 					let itemid = cartt[i].itemid;
 					let orderid = paymenttt.id;
-					var date = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate();
-					var time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
-					let datetime = date + ' ' + time;
+					let CuserId=req.user.id;
+					let oquantity=cartt[i].quantity;
+					// var date = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate();
+					// var time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
+					// let datetime = date + ' ' + time;
 					// let items = {};
 					// items[i]['item'] = itemid;
 					// items[i]['currency'] = 'SGD';
+					//quantity=cartt[i].form.quantity
+					console.log(cartt[i].form.quantity);
+					let quantity=parseInt(cartt[i].form.quantity-parseInt(cartt[i].quantity))
+					console.log("Narutoo forever");
+					console.log(quantity);
+					shopIt.update({
+						quantity
+					},
+					{
+						where:{
+							id:cartt[i].itemid
+						}
+					});
 
-
+					
 					orderd.create({
 						itemid,
-						datetime,
-						orderid
+						//datetime,
+						oquantity,
+						orderid,
+						CuserId
 					})
 					cartt[i].destroy
 						(
@@ -443,7 +721,7 @@ router.get('/success', (req, res) => {
 			res.send('success');
 		}
 	});
-
+});
 });
 
 router.get('/cancel', (req, res) => res.send('Cancelled'));
@@ -838,24 +1116,30 @@ router.get('/addtocart/:id', (req, res) => {
 
 });
 
-router.get('/addtocartt/:id', (req, res) => {
+router.post('/addtocartt/:id', (req, res) => {
+	let quantity=req.body.quantity;
+	console.log(quantity);
 	console.log("saving carttttttttttttttttttt");
 	cart.findOne({ where: { itemid: req.params.id } })
 		.then(cartt => {
 			if (cartt) {
-				let quantity=parseInt(cartt.quantity)+req.body.quantity;
+				console.log("im hereeee");
+				console.log(req.body.quantity);
+				let quantity=parseInt(cartt.quantity)+parseInt(req.body.quantity);
 				cartt.update({quantity})
 				res.redirect('/');
 			}
 			else {
-
 	shopIt.findOne({ where: { id: req.params.id } })
 		.then((shopp) => {
+			console.log(shopp);
 			console.log("it runnnnnnnnnnnnn");
+			console.log(quantity);
 			let itemid = shopp.id;
 			let CuserId = req.user.id;
-			let quantity=req.body.quantity;
+			//let quantity=req.body.quantity;
 			//let quantity= parseInt(cart.quantity)+1;
+			console.log(quantity);
 			cart.create({
 				itemid,
 				quantity,

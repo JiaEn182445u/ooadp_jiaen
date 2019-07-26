@@ -3,9 +3,20 @@ hiiii
 {{shopp.id}}
 {{shopp.name}}
 price:{{shopp.price}}
-<form action="../addtocartt/{{shopp.id}}">
-  Quantity (between 1 and 5): <input type="number" name="quantity" min="1" max={{shopp.quantity}}>
-  <input type="submit">
+<form action="../addtocartt/{{shopp.id}}" method="post">
+<label class="font-italic" for="quantity">Quantity:</label><br>
+  Quantity: <input type="number" name="quantity" min="1" max={{shopp.quantity}} value="1">{{shopp.quantity}}
+
+ {{!-- <select name="quantity">
+   
+    <option value="volvo">Volvo</option>
+    <option value="saab">Saab</option>
+    <option value="fiat" selected>Fiat</option>
+    <option value="audi">Audi</option>
+  </select> --}}
+
+
+  <button type="submit">Add to Cart</button>
 </form>
 {{!-- <script>
 
