@@ -23,11 +23,57 @@ router.get('/paymenttype', (req, res) => {
 });
 
 router.get('/paymentcash', (req, res) => {
-	res.render('shoppingg/bycash')
+	cart.findAll(
+		{
+			where: {
+				CuserId: req.user.id
+			}
+			,
+			include: [{
+				model: shopIt, as: "form",
+				required: true
+			}]
+
+		})
+		.then((carttp) => {
+			var total=0.00;
+			for (i = 0; i < carttp.length; i++) {
+				//let quantity=parseInt(cartt[i].form.quantity-parseInt(cartt[i].quantity))
+				total+=parseInt(carttp[i].quantity)*parseFloat(carttp[i].form.price);
+				console.log("Narutoo forever");}
+				const Rtotal=total.toFixed(2);
+
+	res.render('shoppingg/bycash',{
+		Rtotal:Rtotal
+	})
+			})
 });
 
 router.get('/paymentcreditcard', (req, res) => {
-	res.render('shoppingg/bycreditcard')
+	cart.findAll(
+		{
+			where: {
+				CuserId: req.user.id
+			}
+			,
+			include: [{
+				model: shopIt, as: "form",
+				required: true
+			}]
+
+		})
+		.then((carttp) => {
+			var total=0.00;
+			for (i = 0; i < carttp.length; i++) {
+				//let quantity=parseInt(cartt[i].form.quantity-parseInt(cartt[i].quantity))
+				total+=parseInt(carttp[i].quantity)*parseFloat(carttp[i].form.price);
+				console.log("Narutoo forever");}
+				const Rtotal=total.toFixed(2);
+
+	res.render('shoppingg/bycreditcard',{
+		Rtotal:Rtotal
+	})
+})
 });
 
 
@@ -172,6 +218,18 @@ router.post('/cashpaymentdone', (req, res) => {
 
 
 router.post('/creditcardpaymentdone', (req, res) => {
+	let expiry=req.body.expiry;
+	var d = new Date();
+	let month=d.getMonth()+1;
+	let thisyear=d.getFullYear();
+	let year=thisyear.toString().substr(-2);
+	console.log(year.substr(-2));
+	let errors = [];
+	if (parseInt(expiry.substr(-2))<parseInt(year)) {
+		console.log ('itwork yayayyyy');
+        errors.push({ text: 'Passwords do not match' });
+	}
+	else{
 	cart.findAll(
 		{
 			where: {
@@ -295,6 +353,7 @@ router.post('/creditcardpaymentdone', (req, res) => {
 			})
 		})
 	})
+}
 });
 
 
@@ -762,13 +821,31 @@ router.get('/oneitem/:id', (req, res) => {
 	shopIt.findOne({ where: { id: req.params.id } })
 
 		.then((shopp) => {
-			console.log("it runnnnnnnnnnnnn");
+			Feedback.findAll(
+				{	where: { productcode: req.params.id},
+					include: [{
+						model:user, as: "Cuser",
+						required: true
+					}]
+				})
+				.then((feedbackk) => {
+					var totalrate=parseInt(0);
+					var nocustomer=feedbackk.length;
+					for(var i=0;i<feedbackk.length;i++){
+						totalrate+=parseInt(feedbackk[i].rate);
+						console.log(totalrate);
+					}
+					var average= Math.round(totalrate/feedbackk.length);
+					console.log("look here wmhahha ");
+					console.log(average);
 			res.render('shoppingg/oneitem', { //passing the videos object to display all the videos retrieved.
-
-				shopp
+				feedbackk,
+				shopp,
+				nocustomer,
+				average
 			});
 		})
-
+	})
 
 })
 

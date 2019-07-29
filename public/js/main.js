@@ -16,6 +16,10 @@ function ensureOneCheck(checkBoxName, messageId, submitId) {
 	}
 }
 
+
+
+
+
 $('#posterUpload').on('change', function(){
 	let image = $("#posterUpload")[0].files[0];
 	let formdata = new FormData();

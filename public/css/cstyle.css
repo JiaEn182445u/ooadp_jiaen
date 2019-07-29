@@ -33,6 +33,12 @@
     font-weight: 400;
 }
 
+#forrate{
+float:right;
+padding:0 90px;
+font-size: 20px;
+}
+
 .rate {
     float: right;
     height: 46px;

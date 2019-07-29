@@ -18,6 +18,97 @@ if (document.getElementById('CreditCard').checked) {
     }
 }
 
+function checking(){
+	//var yesorno=false;
+	
+	var cardnum= document.forms["creditcardformpay"]["cardnumber"].value;
+	var exp= document.forms["creditcardformpay"]["expiry"].value;
+	var expfront=parseInt(exp.substring(0, 2));
+	var expback=parseInt(exp.toString().substr(-2));
+	var year=parseInt(new Date().getFullYear().toString().substr(-2));
+	var month=parseInt(new Date().getMonth())+1;
+	alert(cardnum[1]);
+alert(year);
+alert(month);
+	if(document.forms["creditcardformpay"]["CCType"].value=="MasterCard"){
+		if(cardnum.length!=15){
+			alert("Name must be filled out");
+			document.getElementById("appearcardnum").style.display = "block";
+			return false;
+		}
+		else{
+			if(cardnum[0]!="5"){
+				alert("Name must be filled out");
+			document.getElementById("appearcardnum").style.display = "block";
+			return false;
+			}
+	}
+
+}
+
+	if(document.forms["creditcardformpay"]["CCType"].value=="Visa"){
+		if(cardnum.length!=16){
+			alert("Name must be filled out");
+			document.getElementById("appearcardnum").style.display = "block";
+			return false;
+		}
+		else{
+			if(cardnum[0]!="4"){
+				alert("Name must be filled out");
+			document.getElementById("appearcardnum").style.display = "block";
+			return false;
+			}
+	}
+
+}
+
+	if(document.forms["creditcardformpay"]["CCType"].value=="American Express"){
+		if(cardnum.length!=16){
+			alert("Name must be filled out");
+			document.getElementById("appearcardnum").style.display = "block";
+			return false;
+		}
+		else{
+			if(cardnum[0]!="3"){
+				alert("Name must be filled out");
+			document.getElementById("appearcardnum").style.display = "block";
+			return false;
+			}
+			else{
+				if(cardnum[1]!="4" && cardnum[1]!="7"){
+			alert("see see");
+			document.getElementById("appearcardnum").style.display = "block";
+			return false;
+				}
+			}
+
+
+	}
+
+}
+document.getElementById("appearcardnum").style.display = "none";
+if(expfront>12){
+	document.getElementById("appearexpiry").style.display = "block";
+			return false;
+}
+else{
+	if(expback<year){
+		document.getElementById("appearexpiry").style.display = "block";
+			return false;
+	}
+	else{
+		if(expback==year){
+			if(expfront<month){
+		document.getElementById("appearexpiry").style.display = "block";
+			return false;
+			}
+	}
+	}
+}
+//return false;
+}
+
+
 </script>
 <link rel="stylesheet" href="/css/cstyle.css">
 <h3 id="feedbacktitle">Payment</h3>
@@ -26,7 +117,7 @@ if (document.getElementById('CreditCard').checked) {
 	<div class="feedbackbox">
 	
 		
-		<form action="../shopping/creditcardpaymentdone" method="post" id="customerfeedbackformm">
+		<form action="../shopping/creditcardpaymentdone" method="post" id="creditcardformpay" onsubmit="return checking()">
 	
 		<div class="form-group">
 			<label class="font-italic" for="payname">Name:</label><br>
@@ -62,20 +153,27 @@ if (document.getElementById('CreditCard').checked) {
 							<label class="form-check-label" for="Express"></label><img class="logo" src="/img/express.jpg"><br>
 						</div>
 						<br>
+						
 				 <label for="cardname" class="eachq">Name On Card:</label><br>
                     <input name="cardname" type="text" id="cardname" required >
                 <br>
                 <br>
+				 <p class="font-weight-bold text-info" id="appearcardnum" style="display:none">
+                            Please enter a valid card number.
+                        </p>
                 <label for="cardnumber" class="eachq">Card Number:</label><br>
-                    <input name="cardnumber" type="text" pattern="[0-9]{16}" id="cardnumber"  title="16 digits" required >
+                    <input name="cardnumber" type="text"  id="cardnumber"  title="15/16 digits" required >
                 <br>
                 <br>
+				<p class="font-weight-bold text-info" id="appearexpiry" style="display:none">
+                            Please enter a valid expiry date.
+                        </p>
                 <label for="expiry" class="eachq">Expiry Date:</label><br>
-                    <input type="text" pattern="([0-9]{2})+([/]{1})+([0-9]{2})" name="expiry" id="expiry" placeholder="mm/yy" required >
+                    <input type="text" pattern="([0-9]{2})+([/]{1})+([0-9]{2})" title="mm/yy" name="expiry" id="expiry" placeholder="mm/yy" required >
                 <br>
                 <br>
                 <label for="scode" class="eachq">Security Code:</label><br>
-                    <input type="text" name="scode" id="scode" pattern=".{3,4}" required >
+                    <input type="text" name="scode" id="scode" title="3 or 4 digit" pattern=".{3,4}" required >
                 <br>
                 <br>
 	
@@ -92,9 +190,10 @@ if (document.getElementById('CreditCard').checked) {
 		</div>
 
 			<br>
-			<button class="addfeedback" type="submit" class="btn btn-primary">Submit
+			<button class="addfeedback" type="submit" id="creditcardpaying" class="btn btn-primary">Submit
 			</button>
 		</form>
-	
+Total:$	{{Rtotal}}
+
 	</div>
 </div>

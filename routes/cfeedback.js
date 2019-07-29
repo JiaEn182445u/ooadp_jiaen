@@ -7,12 +7,34 @@ const moment = require('moment');
 const fs = require('fs');
 const upload = require('../helpers/imageUpload');
 const user=require('../models/CUser');
-
+const orderd = require('../models/order_detail');
+const shopIt = require('../models/shopitem');
 
 
 router.get('/messageemail',(req,res)=>{
-	res.render('customerfeedback/messageemail') 
+    orderlist=[];
+    orderd.findAll(
+		{
+			where: {
+				CuserId: req.user.id
+			}
+			,
+			include: [{
+                
+                model: shopIt, as: "form",
+                //model:user, as: "cuser",
+				required: true
+			}]
+		})
+		.then((order) => {
+            orderlist.push(order);
+            console.log(orderlist);
+	res.render('customerfeedback/messageemail', { //passing the videos object to display all the videos retrieved.
+        order: order
+        //   shopp:shopp) 
 })
+})
+});
 
 router.post('/messageemailsend',ensureAuthenticated, (req, res) => {
 	// let emailfeedback = req.user.email;
@@ -20,11 +42,14 @@ router.post('/messageemailsend',ensureAuthenticated, (req, res) => {
     let rate=req.body.rate.toString();
     let Message= req.body.Message;
     let DropdownPorS = req.body.PorS.toString();
-    let productcode=req.body.productcode;
+    
     let DropdownSType=req.body.DropdownSType;
     let imageurl=req.body.posterURL;
 
     let CuserId = req.user.id;
+    if(DropdownPorS=="Product"){
+        let productcode=req.body.productcode;
+    
     // Multi-value components return array of strings or undefined
     feedback.create({
 		emailfeedback,
@@ -37,7 +62,22 @@ router.post('/messageemailsend',ensureAuthenticated, (req, res) => {
         CuserId
     }).then((feedback) => {
         res.redirect('/');
-    })
+    })}
+    else{
+        feedback.create({
+            emailfeedback,
+            DropdownPorS,
+            DropdownSType,
+            Message,
+            imageurl,
+            rate,
+            CuserId
+        })
+        .then((feedback) => {
+            res.redirect('/');
+        })
+    }
+   
 });
 
 

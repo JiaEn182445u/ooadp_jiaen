@@ -1,4 +1,41 @@
-hiiii
+<html>
+
+
+
+<i class="fas fa-star"></i>
+<i class="far fa-star"></i>
+here
+
+<link rel="stylesheet" href="/css/cstyle.css">
+<script src="https://kit.fontawesome.com/cab24c7935.js"></script>
+Average Rating:
+<div id="averagerate"></div>
+Number of customers rated:
+{{nocustomer}}
+<script>
+var totalstar=5;
+var crate=parseInt({{average}});
+var leftrate=5-parseInt({{average}});
+var stars=document.createElement("ul");
+  stars.setAttribute("id","stars");
+var ratingstars=document.createElement("div");
+  ratingstars.setAttribute("id","ratingstars");
+    //colourstar.appendChild(stars);
+  for(var g=0;g <crate; g++){
+    var colourstar=document.createElement("i");
+  colourstar.setAttribute("class","fas fa-star");
+    stars.appendChild(colourstar);
+  }
+  for(var c=0;c<leftrate;c++){
+    var nocolourstar=document.createElement("i");
+  nocolourstar.setAttribute("class","far fa-star");
+    stars.appendChild(nocolourstar);
+  }
+
+ratingstars.appendChild(stars);
+var Average=document.getElementById("averagerate");
+Average.appendChild(ratingstars);
+</script>
 
 {{shopp.id}}
 {{shopp.name}}
@@ -19,6 +56,69 @@ price:{{shopp.price}}
 
   <button type="submit">Add to Cart</button>
 </form>
+
+Review:
+{{#if feedbackk}}
+
+				{{#each feedbackk}}
+       
+
+<script>
+var totalstar=5;
+var crate=parseInt({{rate}});
+var leftrate=5-parseInt({{rate}});
+var stars=document.createElement("ul");
+  stars.setAttribute("id","stars");
+var ratingstars=document.createElement("div");
+  ratingstars.setAttribute("id","ratingstars");
+    //colourstar.appendChild(stars);
+  for(var g=0;g <crate; g++){
+    var colourstar=document.createElement("i");
+  colourstar.setAttribute("class","fas fa-star");
+    stars.appendChild(colourstar);
+  }
+  for(var c=0;c<leftrate;c++){
+    var nocolourstar=document.createElement("i");
+  nocolourstar.setAttribute("class","far fa-star");
+    stars.appendChild(nocolourstar);
+  }
+
+ratingstars.appendChild(stars);
+var displayingfeedback=document.getElementById("displayingfeedback");
+displayingfeedback.appendChild(ratingstars);
+</script>
+
+
+<div id="displayingfeedback">  
+
+
+
+
+
+
+
+
+
+      Name:  {{Cuser.name}}
+        {{!-- /\{{CuserId}} --}}
+
+
+
+        {{Message}}
+
+        {{#if imageurl}}
+              
+							<img src="{{imageurl}}" alt="Poster unavailable" class="img-thumbnail img-fluid">
+						
+            {{/if}}
+            </div>
+				{{/each}}
+				{{/if}}
+
+
+
+
+
 {{!-- <script>
 
 name="heloo";
@@ -44,3 +144,4 @@ there is something
 {{else}}
 noting
 {{/if}} --}}
+</html>

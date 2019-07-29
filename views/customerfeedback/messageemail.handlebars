@@ -34,7 +34,11 @@ if (document.getElementById('Service').checked) {
 
 
 <form action="../feedback/messageemailsend" method="post" id="customerfeedbackformm">
+
+<label class="font-italic" id="forrate"for="rate">Rating:</label><br>
+<br>
 <div class="rate">
+	
 	{{!-- <p>Rating</p> --}}
     <input type="radio" id="star5" name="rate" value="5" />
     <label for="star5" title="text">5 stars</label>
@@ -72,21 +76,18 @@ if (document.getElementById('Service').checked) {
 			
 	<div  id="productcodebox" style="display: none;">
 			<label class="font-italic" for="productcode">productcode:</label><br>
-			<textarea class="feedbackformsmall" id="productcode" name="productcode" rows="1" cols="5">{{productcode}}</textarea>
-		</div>
-		{{!-- {{else}}
-			<div class="form-group">
-				<label class="font-italic" for="emailfeedback">Email</label><br>
-				<textarea class="feedbackformsmall" id="emailfeedback" name="emailfeedback" rows="1" cols="5">{{emailfeedback}}</textarea>
-			</div>
-			
-			<div class="form-group">
-				
-				<label class="font-italic" for="PorS"></label>
-                <select name="PorS">
-    <option value="Services">Services</option>
+			<select name="productcode">
+				{{#if order}}
+				{{#each order}}
+				<option value={{form.id}}>{{form.itemName}}</option>
+				{{/each}}
+				{{/if}}
+
+   
   </select>
-		{{/if}} --}}
+			{{!-- <textarea class="feedbackformsmall" id="productcode" name="productcode" rows="1" cols="5">{{productcode}}</textarea> --}}
+		</div>
+		
            <br><br>
 					 <label class="font-italic" for="DropdownSType">Subject</label><br>
 <select name="DropdownSType" >
@@ -109,4 +110,11 @@ if (document.getElementById('Service').checked) {
 		</form>
 	</div>
 </div>
+{{#if order}}
+hii
+{{#each order}}
+naruto?
 
+{{orderid}}
+{{/each}}
+{{/if}}
